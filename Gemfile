@@ -53,6 +53,7 @@ group :development, :test do
 
   # Packages for testing
   gem 'rspec-rails', '~> 3.5'
+  gem 'rails-controller-testing'
 end
 
 group :development do

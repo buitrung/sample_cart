@@ -1,0 +1,12 @@
+%li.col-sm-6.col-md-4.col-lg-3
+	.product
+		.title
+			= product.title
+		.price
+			= "$" + product.price.to_s
+		.action
+			.row
+				.col-xs-6
+					= link_to "View", product, class: 'btn btn-primary btn-block'
+				.col-xs-6
+					%a.btn.btn-success.btn-block + Cart

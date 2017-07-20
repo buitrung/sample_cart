@@ -1,0 +1,36 @@
+- if current_cart.nil? or current_cart.products.empty?
+
+	%h3 Your cart is empty. Pick a product and add it to cart!
+	%hr
+	= link_to "View all products", products_path, class: 'btn btn-primary'
+
+- else
+
+	.clearfix
+		= link_to "Remove this cart", cart_path, method: :delete, data: { Confirm: "Are you sure want to remove this cart and all its product?" }, class: 'pull-right btn btn-danger'
+	%hr
+
+	%ul.products.row.list.list-unstyled
+		- current_cart.products.each do |product|
+			%li.col-sm-6.col-md-4.col-lg-3
+				.product
+					.id #{ product.id }
+					.title #{ link_to product.title, product }
+					.price #{ "$" + product.price.to_s }
+					.action
+						= form_for(current_cart.cart_relationships.find_by(product_id: product.id), html: { method: :put }) do |f|
+							= hidden_field_tag :product_id, product.id
+							.row
+								.col-xs-6
+									- quantity = current_cart.cart_relationships.find_by(product_id: product.id).quantity
+									= number_field_tag :quantity, quantity, min: 1, class: 'text-right form-control'
+									/ %input.text-right.form-control(type="number" min="1" value="#{quantity}")
+								.col-xs-6
+									= f.submit "Update", class: 'btn btn-primary btn-block'
+									/ = link_to "Update", product, class: 'btn btn-primary btn-block'
+						%br
+						= form_for(current_cart.cart_relationships.find_by(product_id: product.id), html: { method: :delete }, data: { Confirm: "Are you sure want to remove this product from cart?" }) do |f|
+							.row
+								.col-xs-12
+									= hidden_field_tag :product_id, product.id
+									= f.submit "Remove from Cart", class: 'btn btn-danger btn-block'

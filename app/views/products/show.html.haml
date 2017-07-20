@@ -1,0 +1,9 @@
+.product
+	.id #{ @product.id }
+	.title #{ @product.title }
+	.price #{ "$" + @product.price.to_s }
+	.action
+		= form_for(current_cart.cart_relationships.build, url: cart_relationships_path) do |f|
+			= hidden_field_tag :product_id, @product.id
+			= number_field_tag :quantity, 1, min: 1, class: 'text-right'
+			= f.submit "+ Cart", class: 'btn btn-success'

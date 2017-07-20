@@ -1,0 +1,24 @@
+%h1 All products
+
+= will_paginate
+
+%ul.products.row.list.list-unstyled
+	/ = render @products
+	- @products.each do |product|
+		%li.col-sm-6.col-md-4.col-lg-3
+			= form_for(current_cart.cart_relationships.build, url: cart_relationships_path) do |f|
+				= hidden_field_tag :product_id, product.id
+				= hidden_field_tag :quantity, 1
+				.product
+					.id #{ product.id }
+					.title #{ product.title }
+					.price #{ "$" + product.price.to_s }
+					.action
+						.row
+							.col-xs-6
+								= link_to "View", product, class: 'btn btn-primary btn-block'
+							.col-xs-6
+								= f.submit "+ Cart", class: 'btn btn-success btn-block'
+								/ %a.btn.btn-success.btn-block + Cart
+
+= will_paginate
